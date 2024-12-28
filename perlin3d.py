@@ -22,8 +22,8 @@ for nz in range(1,N+1):
     rng.shuffle(g[nz,:,:],axis=1)
     rng.shuffle(g[nz,:,:],axis=2)
 
-from test_gradients import test_gradients_3d
-g[0:4,0:4,0:4,:]=test_gradients_3d
+#from test_gradients import test_gradients_3d
+#g[0:4,0:4,0:4,:]=test_gradients_3d
 
 #s curve
 def s(r):
@@ -31,17 +31,17 @@ def s(r):
 
 #perlin 3d
 def perlin(x,y,z):
-    #x=x+4096 #to allow x to range from -4096
+    x=x+4096 #to allow x to range from -4096
     x=x%N #to allow x to have no upper limit
     nx=int(x) #decimal part of x
     rx=x-int(x) #fractional part of x
     
-    #y=y+4096 #to allow y to range from -4096
+    y=y+4096 #to allow y to range from -4096
     y=y%N #to allow y to have no upper limit
     ny=int(y) #decimal part of y
     ry=y-int(y) #fractional part of y
 
-    #z=z+4096 #to allow z to range from -4096
+    z=z+4096 #to allow z to range from -4096
     z=z%N #to allow z to have no upper limit
     nz=int(z) #decimal part of z
     rz=z-int(z) #fractional part of z

@@ -7,14 +7,14 @@ N=256
 gen = np.random.default_rng()
 g=gen.uniform(-1,1,N+1)
 
-from test_gradients import test_gradients_1d
-g[0:10]=test_gradients_1d
+#from test_gradients import test_gradients_1d
+#g[0:10]=test_gradients_1d
 
 def s(r):
     return 3.0*r**2-2*r**3
 
 def perlin(x):
-    #x=x+4096 #to allow x to range from -4096
+    x=x+4096 #to allow x to range from -4096
     x=x%N #to allow x to have no upper limit
     n=int(x) #decimal part
     r=x-int(x) #fractional part
