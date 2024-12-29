@@ -17,7 +17,7 @@ for i in range(N+1):
     for j in range(N+1):
         g[i][j]=unit_vector()
 
-#from test_gradients import test_gradients_2d
+#from etc.test_gradients import test_gradients_2d
 #g[0:4,0:4,:]=test_gradients_2d
 
 #s curve

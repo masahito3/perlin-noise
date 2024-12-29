@@ -22,7 +22,7 @@ for nz in range(1,N+1):
     rng.shuffle(g[nz,:,:],axis=1)
     rng.shuffle(g[nz,:,:],axis=2)
 
-#from test_gradients import test_gradients_3d
+#from etc.test_gradients import test_gradients_3d
 #g[0:4,0:4,0:4,:]=test_gradients_3d
 
 #s curve

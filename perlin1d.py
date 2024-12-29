@@ -7,7 +7,7 @@ N=256
 gen = np.random.default_rng()
 g=gen.uniform(-1,1,N+1)
 
-#from test_gradients import test_gradients_1d
+#from etc.test_gradients import test_gradients_1d
 #g[0:10]=test_gradients_1d
 
 def s(r):
