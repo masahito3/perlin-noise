@@ -65,58 +65,59 @@ def perlin(x,y,z):
            w110*(1-s(rx))*(  s(ry))*(  s(rz))+\
            w111*(  s(rx))*(  s(ry))*(  s(rz))
 
-#make the plot data
-MAX=3.0
-x=y=z=np.arange(0,MAX+0.2,0.2)
-x,y,z=np.meshgrid(x,y,z,indexing="ij") #the indexing is x[nx,ny,nz]
-w=np.empty(x.shape)
-for nx in range(x.shape[0]):
-    for ny in range(x.shape[1]):
-        for nz in range(x.shape[2]):
-            w[nx,ny,nz]=perlin(x[nx,ny,nz],y[nx,ny,nz],z[nx,ny,nz])
+if __name__=="__main__":
+    #make the plot data
+    MAX=3.0
+    x=y=z=np.arange(0,MAX+0.2,0.2)
+    x,y,z=np.meshgrid(x,y,z,indexing="ij") #the indexing is x[nx,ny,nz]
+    w=np.empty(x.shape)
+    for nx in range(x.shape[0]):
+        for ny in range(x.shape[1]):
+            for nz in range(x.shape[2]):
+                w[nx,ny,nz]=perlin(x[nx,ny,nz],y[nx,ny,nz],z[nx,ny,nz])
 
-#plot them
-fig=mlab.figure()
-contour=mlab.contour3d(x,y,z,w,transparent=True,contours=50)#render the contour. the indexing must be x[nx,ny,nz]
+    #plot them
+    fig=mlab.figure()
+    contour=mlab.contour3d(x,y,z,w,transparent=True,contours=50)#render the contour. the indexing must be x[nx,ny,nz]
 
-#show the axes
-mlab.axes(extent=[0,MAX,0,MAX,0,MAX],ranges=[0,MAX,0,MAX,0,MAX])
+    #show the axes
+    mlab.axes(extent=[0,MAX,0,MAX,0,MAX],ranges=[0,MAX,0,MAX,0,MAX])
 
-#show the color bar
-scalar_bar=tvtk.ScalarBarActor()
-fig.scene.renderer.add_actor2d(scalar_bar)
+    #show the color bar
+    scalar_bar=tvtk.ScalarBarActor()
+    fig.scene.renderer.add_actor2d(scalar_bar)
 
-#make the color lookup table
-HI=0.8
-LO=-0.8
-TS=256
-ctf=tvtk.ColorTransferFunction()
-ctf.add_rgb_point(LO,0,0,1) #the low values show blue
-ctf.add_rgb_point((HI+LO)/2,1,1,1) #near zero values show white
-ctf.add_rgb_point(HI,1,0,0) #the high values show red
-lut=tvtk.LookupTable()
-lut.table_range=[LO,HI]
-lut.table=[np.array((ctf.get_color(LO+i*(HI-LO)/TS)+(0.5,)))*255 for i in np.arange(TS+1)]
-#set it
-contour.actor.mapper.lookup_table=lut
-scalar_bar.lookup_table=lut
+    #make the color lookup table
+    HI=0.8
+    LO=-0.8
+    TS=256
+    ctf=tvtk.ColorTransferFunction()
+    ctf.add_rgb_point(LO,0,0,1) #the low values show blue
+    ctf.add_rgb_point((HI+LO)/2,1,1,1) #near zero values show white
+    ctf.add_rgb_point(HI,1,0,0) #the high values show red
+    lut=tvtk.LookupTable()
+    lut.table_range=[LO,HI]
+    lut.table=[np.array((ctf.get_color(LO+i*(HI-LO)/TS)+(0.5,)))*255 for i in np.arange(TS+1)]
+    #set it
+    contour.actor.mapper.lookup_table=lut
+    scalar_bar.lookup_table=lut
 
-#show the lattice grid
-GS=MAX+1
-append= tvtk.AppendPolyData()
-for i in np.arange(GS):
-    image=tvtk.ImageData(dimensions=(GS,GS,1),spacing=(1,1,1),origin=(0,0,i))
-    surface=tvtk.DataSetSurfaceFilter()
-    surface.set_input_data(image)
-    append.add_input_connection(surface.output_port)
+    #show the lattice grid
+    GS=MAX+1
+    append= tvtk.AppendPolyData()
+    for i in np.arange(GS):
+        image=tvtk.ImageData(dimensions=(GS,GS,1),spacing=(1,1,1),origin=(0,0,i))
+        surface=tvtk.DataSetSurfaceFilter()
+        surface.set_input_data(image)
+        append.add_input_connection(surface.output_port)
 
-    image=tvtk.ImageData(dimensions=(GS,1,GS),spacing=(1,1,1),origin=(0,i,0))
-    surface=tvtk.DataSetSurfaceFilter()
-    surface.set_input_data(image)
-    append.add_input_connection(surface.output_port)
+        image=tvtk.ImageData(dimensions=(GS,1,GS),spacing=(1,1,1),origin=(0,i,0))
+        surface=tvtk.DataSetSurfaceFilter()
+        surface.set_input_data(image)
+        append.add_input_connection(surface.output_port)
 
-mapper=tvtk.PolyDataMapper()
-mapper.set_input_connection(append.output_port)
-p=tvtk.Property(opacity=1,color=(1,1,1),ambient=1,representation="wireframe",line_width=1)
-actor=tvtk.Actor(mapper=mapper,property=p)
-fig.scene.add_actor(actor)
+    mapper=tvtk.PolyDataMapper()
+    mapper.set_input_connection(append.output_port)
+    p=tvtk.Property(opacity=1,color=(1,1,1),ambient=1,representation="wireframe",line_width=1)
+    actor=tvtk.Actor(mapper=mapper,property=p)
+    fig.scene.add_actor(actor)

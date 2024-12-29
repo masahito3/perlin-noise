@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import *
-from matplotlib import cm, ticker
 
 #set up the initial gradients for all lattice points
 N=256
@@ -48,27 +47,28 @@ def perlin(x,y):
            z10*(1-s(rx))*(  s(ry))+ \
            z11*(  s(rx))*(  s(ry))
 
-#plot data
-X=Y=np.arange(0,3.01,0.05)
-X,Y=np.meshgrid(X,Y)
-Z=np.empty(X.shape)
-for i in range(X.shape[0]):
-    for j in range(X.shape[1]):
-        Z[i,j]=perlin(X[i,j],Y[i,j])
+if __name__=="__main__":
+    #plot data
+    X=Y=np.arange(0,3.01,0.05)
+    X,Y=np.meshgrid(X,Y)
+    Z=np.empty(X.shape)
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            Z[i,j]=perlin(X[i,j],Y[i,j])
 
-#plot them
-#fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-#ax.plot_surface(X,Y,Z)
-fig, ax = plt.subplots(figsize=(6,6),layout="constrained")
-level=np.arange(-0.8,0.81,0.05)
-CS=ax.contourf(X,Y,Z,level,cmap="bwr")
-cbar=fig.colorbar(CS,shrink=0.75)
-cbar.set_ticks([-0.8,0.0,0.8])
-ax.axis("square")
-ax.grid("on")
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.xaxis.set_major_locator(MultipleLocator(base=1.0))
-ax.yaxis.set_major_locator(MultipleLocator(base=1.0))
-plt.savefig("perlin-2d-sample.svg")
-plt.show()
+    #plot them
+    #fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    #ax.plot_surface(X,Y,Z)
+    fig, ax = plt.subplots(figsize=(6,6),layout="constrained")
+    level=np.arange(-0.8,0.81,0.05)
+    CS=ax.contourf(X,Y,Z,level,cmap="bwr")
+    cbar=fig.colorbar(CS,shrink=0.75)
+    cbar.set_ticks([-0.8,0.0,0.8])
+    ax.axis("square")
+    ax.grid("on")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.xaxis.set_major_locator(MultipleLocator(base=1.0))
+    ax.yaxis.set_major_locator(MultipleLocator(base=1.0))
+    plt.savefig("perlin-2d-sample.svg")
+    plt.show()
