@@ -48,13 +48,13 @@ def perlin2d(x,y):
            z11*(  s(rx))*(  s(ry))
 
 if __name__=="__main__":
-    #plot data
-    X=Y=np.arange(0,3.01,0.05)
-    X,Y=np.meshgrid(X,Y)
+    #make plot data
+    X=Y=np.arange(0,3.05,0.05)
+    X,Y=np.meshgrid(X,Y,indexing="ij") #x[nx,ny]
     Z=np.empty(X.shape)
-    for i in range(X.shape[0]):
-        for j in range(X.shape[1]):
-            Z[i,j]=perlin2d(X[i,j],Y[i,j])
+    for nx in range(X.shape[0]):
+        for ny in range(X.shape[1]):
+            Z[nx,ny]=perlin2d(X[nx,ny],Y[nx,ny])
 
     #plot them
     #fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
