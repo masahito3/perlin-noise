@@ -30,7 +30,7 @@ def s(r):
     return 3.0*r**2-2*r**3
 
 #perlin 3d
-def perlin(x,y,z):
+def perlin3d(x,y,z):
     x=x+4096 #to allow x to range from -4096
     x=x%N #to allow x to have no upper limit
     nx=int(x) #decimal part of x
@@ -74,7 +74,7 @@ if __name__=="__main__":
     for nx in range(x.shape[0]):
         for ny in range(x.shape[1]):
             for nz in range(x.shape[2]):
-                w[nx,ny,nz]=perlin(x[nx,ny,nz],y[nx,ny,nz],z[nx,ny,nz])
+                w[nx,ny,nz]=perlin3d(x[nx,ny,nz],y[nx,ny,nz],z[nx,ny,nz])
 
     #plot them
     fig=mlab.figure()

@@ -25,7 +25,7 @@ def s(r):
     return 3.0*r**2-2*r**3
 
 #perlin 2d
-def perlin(x,y):
+def perlin2d(x,y):
     x=x+4096 #to allow x to range from -4096
     x=x%N #to allow x to have no upper limit
     nx=int(x) #decimal part of x
@@ -54,7 +54,7 @@ if __name__=="__main__":
     Z=np.empty(X.shape)
     for i in range(X.shape[0]):
         for j in range(X.shape[1]):
-            Z[i,j]=perlin(X[i,j],Y[i,j])
+            Z[i,j]=perlin2d(X[i,j],Y[i,j])
 
     #plot them
     #fig, ax = plt.subplots(subplot_kw={"projection": "3d"})

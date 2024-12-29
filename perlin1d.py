@@ -13,7 +13,7 @@ g=gen.uniform(-1,1,N+1)
 def s(r):
     return 3.0*r**2-2*r**3
 
-def perlin(x):
+def perlin1d(x):
     x=x+4096 #to allow x to range from -4096
     x=x%N #to allow x to have no upper limit
     n=int(x) #decimal part
@@ -25,7 +25,7 @@ def perlin(x):
 if __name__=="__main__":
     #plot data
     x=np.arange(0,4,0.01)
-    y=[perlin(x) for x in x]
+    y=[perlin1d(x) for x in x]
 
     #plot
     fig=plt.figure(figsize=(8,3),layout="constrained") # inch
