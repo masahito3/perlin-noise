@@ -1,4 +1,4 @@
-# A perlin noise
+# A Perlin noise
 
 ## Overview
 
