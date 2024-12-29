@@ -121,3 +121,4 @@ if __name__=="__main__":
     p=tvtk.Property(opacity=1,color=(1,1,1),ambient=1,representation="wireframe",line_width=1)
     actor=tvtk.Actor(mapper=mapper,property=p)
     fig.scene.add_actor(actor)
+    mlab.show()

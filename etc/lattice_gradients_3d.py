@@ -49,4 +49,5 @@ fig.scene.camera.position=np.array([9,12,9])
 fig.scene.camera.focal_point=np.array([1.5,1.5,1.5])
 fig.scene.camera.view_angle=25
 
+mlab.show()
 
