@@ -3,7 +3,7 @@
 ## Overview
 
 This is a Perlin noise implementation in python.  
-It is used in the blog about Perlin noise.  
+It is used in my blog about Perlin noise.  
 [ゆっくりPerlin noiseしていってね](https://sioramen.sub.jp/blog2/2024/12/15/%e3%82%86%e3%81%a3%e3%81%8f%e3%82%8aperlin-noise%e3%81%97%e3%81%a6%e3%81%84%e3%81%a3%e3%81%a6%e3%81%ad/)  
 
 ![image](etc/perlin-2d-from-0-to-10.svg)
