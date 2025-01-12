@@ -35,6 +35,8 @@ v3=perin3d(0.5,0.5,0.5)
 ## Reference
 
 [Noise and Turbulence](https://web.archive.org/web/20160503105316/http://mrl.nyu.edu/~perlin/doc/oscar.html)  
+[The Perlin noise math FAQ](https://mzucker.github.io/html/perlin-noise-math-faq)  
+[Simplex noise demystified](https://github.com/stegu/perlin-noise/blob/master/simplexnoise.pdf)  
 
 ## Author
 
