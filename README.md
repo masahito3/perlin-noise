@@ -1,4 +1,4 @@
-# A Perlin Noise Implementation
+# A Perlin noise
 
 ## Overview
 
