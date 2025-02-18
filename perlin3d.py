@@ -2,72 +2,68 @@ import numpy as np
 from mayavi import mlab
 from tvtk.api import tvtk
 
-#set up the initial gradients for all lattice points
-N=256
-rng = np.random.default_rng()
-def unit_vector():
-    v=rng.uniform(-1,1,3)
-    l=np.linalg.norm(v)
-    if l==0.0:
-        return v
-    return v/l
-
-g=np.empty((N+1,N+1,N+1,3)) #the indexing is g[nz][ny][nx]
-for ny in range(N+1):
-    for nx in range(N+1):
-        g[0][ny][nx]=unit_vector()
-
-for nz in range(1,N+1):
-    g[nz,:,:]=g[0,:,:]
-    rng.shuffle(g[nz,:,:],axis=1)
-    rng.shuffle(g[nz,:,:],axis=2)
-
-#from etc.test_gradients import test_gradients_3d
-#g[0:4,0:4,0:4,:]=test_gradients_3d
-
 #s curve
 def s(r):
-    return 3.0*r**2-2*r**3
+    return 6*r**5-15*r**4+10*r**3
 
 #perlin 3d
 def perlin3d(x,y,z):
-    x=x+4096 #to allow x to range from -4096
-    x=x%N #to allow x to have no upper limit
-    nx=int(x) #decimal part of x
-    rx=x-int(x) #fractional part of x
+    n=int(x) #decimal part of x
+    rx=x-n #fractional part of x
     
-    y=y+4096 #to allow y to range from -4096
-    y=y%N #to allow y to have no upper limit
-    ny=int(y) #decimal part of y
-    ry=y-int(y) #fractional part of y
+    m=int(y) #decimal part of y
+    ry=y-m #fractional part of y
 
-    z=z+4096 #to allow z to range from -4096
-    z=z%N #to allow z to have no upper limit
-    nz=int(z) #decimal part of z
-    rz=z-int(z) #fractional part of z
+    l=int(z) #decimal part of z
+    rz=z-l #fractional part of z
 
-    #the indexing of suffix is w_zyx
-    w000=np.dot(g[nz  ][ny  ][nx  ],(rx  ,ry  ,rz  ))
-    w001=np.dot(g[nz  ][ny  ][nx+1],(rx-1,ry  ,rz  ))
-    w010=np.dot(g[nz  ][ny+1][nx  ],(rx  ,ry-1,rz  ))
-    w011=np.dot(g[nz  ][ny+1][nx+1],(rx-1,ry-1,rz  ))
-    w100=np.dot(g[nz+1][ny  ][nx  ],(rx  ,ry  ,rz-1))
-    w101=np.dot(g[nz+1][ny  ][nx+1],(rx-1,ry  ,rz-1))
-    w110=np.dot(g[nz+1][ny+1][nx  ],(rx  ,ry-1,rz-1))
-    w111=np.dot(g[nz+1][ny+1][nx+1],(rx-1,ry-1,rz-1))
+    w0=calc_grad_dot(n  ,m  ,l  ,rx  ,ry  ,rz  )
+    w1=calc_grad_dot(n+1,m  ,l  ,rx-1,ry  ,rz  )
+    w2=calc_grad_dot(n  ,m+1,l  ,rx  ,ry-1,rz  )
+    w3=calc_grad_dot(n+1,m+1,l  ,rx-1,ry-1,rz  )
+    w4=calc_grad_dot(n  ,m  ,l+1,rx  ,ry  ,rz-1)
+    w5=calc_grad_dot(n+1,m  ,l+1,rx-1,ry  ,rz-1)
+    w6=calc_grad_dot(n  ,m+1,l+1,rx  ,ry-1,rz-1)
+    w7=calc_grad_dot(n+1,m+1,l+1,rx-1,ry-1,rz-1)
 
-    return w000*(1-s(rx))*(1-s(ry))*(1-s(rz))+\
-           w001*(  s(rx))*(1-s(ry))*(1-s(rz))+\
-           w010*(1-s(rx))*(  s(ry))*(1-s(rz))+\
-           w011*(  s(rx))*(  s(ry))*(1-s(rz))+\
-           w100*(1-s(rx))*(1-s(ry))*(  s(rz))+\
-           w101*(  s(rx))*(1-s(ry))*(  s(rz))+\
-           w110*(1-s(rx))*(  s(ry))*(  s(rz))+\
-           w111*(  s(rx))*(  s(ry))*(  s(rz))
+    return w0*(1-s(rx))*(1-s(ry))*(1-s(rz))+\
+           w1*(  s(rx))*(1-s(ry))*(1-s(rz))+\
+           w2*(1-s(rx))*(  s(ry))*(1-s(rz))+\
+           w3*(  s(rx))*(  s(ry))*(1-s(rz))+\
+           w4*(1-s(rx))*(1-s(ry))*(  s(rz))+\
+           w5*(  s(rx))*(1-s(ry))*(  s(rz))+\
+           w6*(1-s(rx))*(  s(ry))*(  s(rz))+\
+           w7*(  s(rx))*(  s(ry))*(  s(rz))
+
+#random number table
+p=[151,160,137,91,90,15,
+   131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+   190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+   88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+   77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+   102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+   135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+   5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+   223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+   129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+   251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+   49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+   138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180]
+
+def hash(n,m,l):
+    return p[(p[(p[n%256]+m)%256]+l)%256]
+
+def calc_grad_dot(n,m,l,x,y,z):
+    h=hash(n,m,l)&0b1111
+    h<8 and (u:=x) or (u:=y)
+    h<4 and (v:=y) or ((h==12 or h==14) and (v:=x) or (v:=z))
+    h&1 and (u:=-u)
+    h&2 and (v:=-v)
+    return u+v
 
 if __name__=="__main__":
     #make the plot data
-    MAX=3.0
+    MAX=3
     x=y=z=np.arange(0,MAX+0.2,0.2)
     x,y,z=np.meshgrid(x,y,z,indexing="ij") #the indexing is x[nx,ny,nz]
     w=np.empty(x.shape)
@@ -78,7 +74,8 @@ if __name__=="__main__":
 
     #plot them
     fig=mlab.figure()
-    contour=mlab.contour3d(x,y,z,w,transparent=True,contours=50)#render the contour. the indexing must be x[nx,ny,nz]
+    #render the contour. the indexing must be x[nx,ny,nz]
+    contour=mlab.contour3d(x,y,z,w,transparent=True,contours=50)
 
     #show the axes
     mlab.axes(extent=[0,MAX,0,MAX,0,MAX],ranges=[0,MAX,0,MAX,0,MAX])
