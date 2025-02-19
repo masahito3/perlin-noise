@@ -1,15 +1,15 @@
-# A Perlin noise
+# Perlin noise
 
 ## Overview
 
 This is a Perlin noise implementation in python.  
 It is used in my blog about Perlin noise.  
 
-[Take it easy with Perlin Noise(Classic)](https://sioramen.sub.jp/blog3/2025/01/12/take-it-easy-with-perlin-noiseclassic/)  
+[Take it easy with Perlin noise](https://sioramen.sub.jp/blog3/2025/01/12/take-it-easy-with-perlin-noiseclassic/)  
 
-[ゆっくりPerlin Noise(Classic)していってね](https://sioramen.sub.jp/blog2/2024/12/15/%e3%82%86%e3%81%a3%e3%81%8f%e3%82%8aperlin-noise%e3%81%97%e3%81%a6%e3%81%84%e3%81%a3%e3%81%a6%e3%81%ad/)  
+[ゆっくりPerlin noiseしていってね](https://sioramen.sub.jp/blog2/2024/12/15/%e3%82%86%e3%81%a3%e3%81%8f%e3%82%8aperlin-noise%e3%81%97%e3%81%a6%e3%81%84%e3%81%a3%e3%81%a6%e3%81%ad/)  
 
-![image](etc/perlin-2d-from-0-to-10.svg)
+![image](etc/perlin2d-10.png)
 
 ## Requirement
 
