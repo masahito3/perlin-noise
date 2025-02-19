@@ -32,9 +32,11 @@ v1=perin1d(0.5)
 v2=perin2d(0.5,0.5)  
 v3=perin3d(0.5,0.5,0.5)  
 
-## Reference
+## References
 
 [Noise and Turbulence](https://web.archive.org/web/20160503105316/http://mrl.nyu.edu/~perlin/doc/oscar.html)  
+[Improving Noise](https://mrl.cs.nyu.edu/~perlin/paper445.pdf)  
+[Improved Noise reference implementation](https://mrl.cs.nyu.edu/~perlin/noise/)  
 [The Perlin noise math FAQ](https://mzucker.github.io/html/perlin-noise-math-faq)  
 [Simplex noise demystified](https://github.com/stegu/perlin-noise/blob/master/simplexnoise.pdf)  
 
