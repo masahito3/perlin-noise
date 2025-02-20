@@ -30,13 +30,11 @@ p=[151,160,137,91,90,15,
 def hash(n):
     return p[n%256]
 
-g=[0.25,0.5,0.75,1]
+g=[0.25,0.5,0.75,1,-0.25,-0.5,-0.75,-1]
 
 def calc_grad_dot(n,x):
     h=hash(n)
-    u=x*g[h&0b11]
-    h&4 and (u:=-u)
-    return u
+    return x*g[h&0b111]
 
 if __name__=="__main__":
     #plot data
