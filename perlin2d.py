@@ -61,14 +61,11 @@ if __name__=="__main__":
             Z[nx,ny]=perlin2d(X[nx,ny],Y[nx,ny])
 
     #plot them
-    #fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    #ax.plot_surface(X,Y,Z)
     fig, ax = plt.subplots(figsize=(6,6),layout="constrained")
-    #level=np.arange(-1.05,1.05,0.05)
-    level=np.arange(-1.05,1.05,0.01)
+    level=np.arange(-0.81,0.81,0.01)
     CS=ax.contourf(X,Y,Z,level,cmap="bwr")
     cbar=fig.colorbar(CS,shrink=0.75)
-    cbar.set_ticks([-1,0,1])
+    cbar.set_ticks([-0.8,0.8])
     ax.axis("square")
     ax.grid("on")
     ax.set_xlabel("x")

@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import *
+from matplotlib import patches
 
 plt.rcParams["text.usetex"] = True
 
@@ -29,38 +30,43 @@ def calc_grad(n,m):
 def hash(n):
     return p[n%256]
 
-g=[0.25,0.5,0.75,1,-0.25,-0.5,-0.75,-1]
-
 def calc_grad(n):
     h=hash(n)
-    return g[h&0b111]
-
-X=np.arange(0,4,1)
-Y=np.arange(0,1,1)
-X,Y=np.meshgrid(X,Y,indexing="ij") #X[nx,ny],Y[nx,ny]
-U=np.zeros(X.shape)
-V=np.zeros(X.shape)
-for nx in range(X.shape[0]):
-    for ny in range(X.shape[1]):
-        U[nx,ny]=calc_grad(nx)
-        V[nx,ny]=0
+    g=0.25*((h&0b11)+1)
+    h&2 and (g:=-g)
+    return g
 
 fig,ax=plt.subplots(figsize=(5,1))
-ax.hlines(0,0,4,color=(0,0,0,0.5),lw=2)
-ax.quiver(X,Y,U,V,angles="xy",
-          scale_units="xy",scale=1,clip_on=False,
-          color="red",width=0.012,zorder=2)
+
+def arrow(x,y,dx,dy,color):
+    options={"x":x,"y":y,"dx":dx,"dy":dy,"width":0.03,
+             "color":color,
+             "length_includes_head":True,
+             "overhang":0.1,
+             "head_length":0.15,
+             "clip_on":False}
+    arrow = patches.FancyArrow(**options)
+    ax.add_patch(arrow)
+
+ax.hlines(0,0,3,color=(0,0,0,0.5),lw=2,clip_on=False)
 plt.subplots_adjust(left=0.20,right=0.80)
+
+
+arrow(0,0,calc_grad(0),0,color="red")
+arrow(1,0,calc_grad(1),0,color="red")
+arrow(2,0.05,calc_grad(2),0,color="red")
+arrow(3,-0.05,calc_grad(3),0,color="red")
+
 
 ax.text(-0.5,0,r"$\vec v_0$",va="bottom",ha="center",fontsize=18,color="red")
 ax.text(1.1,0.05,r"$\vec v_1$",va="bottom",ha="center",fontsize=18,color="red")
-ax.text(2.2,0.05,r"$\vec v_2$",va="bottom",ha="center",fontsize=18,color="red")
-ax.text(3.5,0.05,r"$\vec v_3$",va="bottom",ha="center",fontsize=18,color="red")
+ax.text(2.2,0.07,r"$\vec v_2$",va="bottom",ha="center",fontsize=18,color="red")
+ax.text(2.5,-0.05,r"$\vec v_3$",va="top",ha="center",fontsize=18,color="red")
 
 ax.axis("square")
 ax.set_xlabel("x")
 #ax.grid("on")
-ax.set(xlim=(X.min(),X.max()),ylim=(Y.min(),Y.max()))
+ax.set(xlim=(0,3),ylim=(0,0.1))
 ax.xaxis.set_major_locator(MultipleLocator(base=1.0))
 ax.get_yaxis().set_ticks([])
 ax.set(frame_on=False) 
