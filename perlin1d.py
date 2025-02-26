@@ -30,11 +30,11 @@ p=[151,160,137,91,90,15,
 def hash(n):
     return p[n%256]
 
-g=[0.25,0.5,0.75,1,-0.25,-0.5,-0.75,-1]
-
 def calc_grad_dot(n,x):
     h=hash(n)
-    return x*g[h&0b111]
+    g=0.25*((h&0b11)+1)
+    h&2 and (g:=-g)
+    return x*g
 
 if __name__=="__main__":
     #plot data
@@ -52,5 +52,5 @@ if __name__=="__main__":
     ax.set(ylim=(-0.5,0.5))
     ax.xaxis.set_major_locator(MultipleLocator(base=1.0))
     ax.yaxis.set_major_locator(MultipleLocator(base=0.5))
-    plt.savefig("perlin-1d-sample.svg")
+    #plt.savefig("perlin-1d-sample.svg")
     plt.show()

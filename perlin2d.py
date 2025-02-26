@@ -43,11 +43,11 @@ def hash(n,m):
     return p[(p[n%256]+m)%256]
 
 def calc_grad_dot(n,m,x,y):
-    h=hash(n,m)
+    h=hash(n,m)%12
     h&4 and (u:=y,v:=x) or (u:=x,v:=y)
-    h&2 and (u:=0)
-    h&1 and (v:=-v)
-    h&0b111==4 and (u:=-u,v:=-v)
+    h>3 and (v:=0)
+    h&1 and (u:=-u)
+    h&2 and (v:=-v)
     return u+v
 
 if __name__=="__main__":
