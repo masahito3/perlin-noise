@@ -55,8 +55,8 @@ def hash(n,m,l):
 
 def calc_grad_dot(n,m,l,x,y,z):
     h=hash(n,m,l)&0b1111
-    h<8 and (u:=x) or (u:=y)
-    h<4 and (v:=y) or ((h==12 or h==14) and (v:=x) or (v:=z))
+    h<8 and (u:=x,) or (u:=y)
+    h<4 and (v:=y,) or ((h==12 or h==14) and (v:=x,) or (v:=z))
     h&1 and (u:=-u)
     h&2 and (v:=-v)
     return u+v
